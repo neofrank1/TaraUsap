@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, use, useState } from "react";
+import { io } from "next/cache";
 import { Button, Card } from "@heroui/react";
 
 const topics = [
@@ -36,14 +37,21 @@ function TagIcon() {
   );
 }
 
-export default function Home() {
-  const [current, setCurrent] = useState(0);
+function CurrentDateLabel() {
+  use(io());
+
   const dateLabel = new Intl.DateTimeFormat("en-PH", {
     weekday: "long",
     month: "long",
     day: "numeric",
     timeZone: "Asia/Manila",
   }).format(new Date());
+
+  return <p className="eyebrow">{dateLabel}</p>;
+}
+
+export default function Home() {
+  const [current, setCurrent] = useState(0);
 
   function newTopic() {
     setCurrent((previous) => {
@@ -66,7 +74,9 @@ export default function Home() {
       </header>
 
       <section className="hero" aria-labelledby="hero-title">
-        <p className="eyebrow">{dateLabel}</p>
+        <Suspense fallback={<p className="eyebrow" aria-hidden="true" />}>
+          <CurrentDateLabel />
+        </Suspense>
         <h1 id="hero-title">Read the Gospel, then talk about it at home.</h1>
         <p className="lead">Each day we pick one key word from the Gospel and turn it into conversation starters for your household.</p>
       </section>
