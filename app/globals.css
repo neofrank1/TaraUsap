@@ -1,26 +1,166 @@
 @import "tailwindcss";
 @import "@heroui/styles";
+
 :root {
-    --background: #ffffff;
-    --foreground: #171717;
+  --page-bg: #f4f7f6;
+  --surface: #ffffff;
+  --ink: #1e2b2b;
+  --muted: #4a5a5a;
+  --line: #d5dedd;
+  --accent: #1f6f6b;
+  --accent-dark: #14504d;
+  --accent-soft: #eaf2f1;
 }
 
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-     :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
-    }
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.page-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.site-header, .hero, .cards, .site-footer {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 48px;
+}
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 24px;
+}
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-icon { width: 32px; height: 32px; color: var(--accent); }
+.brand-icon svg, .keyword-box svg, .new-topic-button svg { display: block; width: 100%; height: 100%; }
+.brand-name, .hero h1, .gospel-ref, .gospel-text, .keyword, .topic {
+  font-family: Georgia, "Times New Roman", serif;
+}
+.brand-name { font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
+.nav { display: flex; gap: 28px; }
+.nav a { padding-block: 12px; font-weight: 600; text-decoration: none; }
+.nav a:hover { color: var(--accent); }
+
+.hero { padding-block: 32px 8px; }
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.hero h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.lead { max-width: 620px; margin: 20px 0 0; color: var(--muted); font-size: 19px; line-height: 1.55; }
+
+.cards { display: flex; flex-wrap: wrap; align-items: stretch; gap: 32px; padding-block: 32px 48px; }
+.content-card {
+  flex: 1 1 420px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 36px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: none;
+}
+.topic-card { flex-basis: 480px; gap: 24px; }
+.card-label { color: var(--muted); font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.gospel-ref { margin: 0; font-size: 30px; font-weight: 600; line-height: 1.2; }
+.gospel-day { margin: 6px 0 0; color: var(--muted); }
+.divider { width: 100%; height: 1px; margin: 0; border: 0; background: var(--line); }
+.gospel-text { margin: 0; font-size: 21px; line-height: 1.6; }
+.keyword-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: auto;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+.keyword-box svg { width: 24px; height: 24px; flex: 0 0 24px; }
+.keyword-label { font-weight: 700; }
+.keyword { color: var(--ink); font-size: 30px; font-weight: 600; line-height: 1; }
+.topic-intro { margin: 0; color: var(--muted); font-size: 17px; }
+.topic-intro strong { color: var(--accent); }
+.topic-wrap { flex: 1 1 auto; min-height: 200px; display: flex; align-items: center; }
+.topic { margin: 0; font-size: 36px; font-weight: 500; line-height: 1.25; letter-spacing: -.01em; }
+.topic-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.new-topic-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s ease, transform .1s ease;
+}
+.new-topic-button:hover { background: var(--accent-dark); }
+.new-topic-button:active { transform: scale(.98); }
+.new-topic-button svg { width: 20px; height: 20px; }
+.counter { color: var(--muted); font-size: 15px; }
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-block: 24px 40px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+}
+
+@media (max-width: 720px) {
+  .site-header, .hero, .cards, .site-footer { padding-inline: 20px; }
+  .nav { gap: 20px; }
+  .hero h1 { font-size: 38px; }
+  .lead { font-size: 17px; }
+  .cards { gap: 20px; padding-block: 24px 32px; }
+  .content-card, .topic-card { flex-basis: 100%; padding: 24px; }
+  .gospel-ref { font-size: 26px; }
+  .gospel-text { font-size: 19px; }
+  .topic { font-size: 28px; }
+  .topic-wrap { min-height: 140px; }
+  .new-topic-button { width: 100%; }
+}
+@media (max-width: 460px) {
+  .site-header { align-items: flex-start; flex-direction: column; }
+  .nav { width: 100%; justify-content: space-between; gap: 12px; }
+  .nav a { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .new-topic-button { transition: none; }
 }
